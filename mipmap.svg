@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500">
+<texture filename="assets/apple-logo.png" texid="apple"/>
+<textri texid="apple" uvs="0 0 1 0 0 1" points="30 100 330 100 30 400"/>
+<textri texid="apple" uvs="1 0 1 1 0 1" points="330 100 330 400 30 400"/>
+<textri texid="apple" uvs="0 0 1 0 0 1" points="410 100 550 100 410 240"/>
+<textri texid="apple" uvs="1 0 1 1 0 1" points="550 100 550 240 410 240"/>
+<textri texid="apple" uvs="0 0 1 0 0 1" points="610 100 680 100 610 170"/>
+<textri texid="apple" uvs="1 0 1 1 0 1" points="680 100 680 170 610 170"/>
+</svg>

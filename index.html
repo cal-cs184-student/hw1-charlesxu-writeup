@@ -1,112 +1,615 @@
-<html>
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<style>
-			h1 {
-				text-align: center;
-			}
+<!doctype html>
+<html lang="en">
 
-			.container {
-				margin: 0 auto;
-				padding: 60px 20%;
-			}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Charles Xu | HW1 Rasterizer</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
 
-			figure {
-				text-align: center;
-			}
+        html {
+            background: #edf0f3
+        }
 
-			img {
-				display: inline-block;
-			}
+        body {
+            margin: 0;
+            color: #202b36;
+            font: 16px/1.55 Georgia, serif
+        }
 
-			body {
-				font-family: 'Inter', sans-serif;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-		<h1>CS184/284A Fall 2026 Homework 1 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+        main {
+            max-width: 1060px;
+            margin: 28px auto;
+            background: white;
+            padding: 48px 58px
+        }
 
-		<br>
+        h1,
+        h2,
+        h3,
+        .meta,
+        figcaption,
+        table,
+        nav {
+            font-family: Arial, sans-serif
+        }
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/fa26">cs184.eecs.berkeley.edu/fa26</a>
-		
-		<br>
+        h1 {
+            font-size: 34px;
+            line-height: 1.15;
+            margin: 4px 0 12px
+        }
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/fa26">cs184.eecs.berkeley.edu/fa26</a>
+        h2 {
+            font-size: 25px;
+            line-height: 1.25;
+            margin: 0 0 15px;
+            color: #284d69
+        }
 
-		<figure>
-			<img src="assets/lion.jpg" alt="Lion" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+        h3 {
+            font-size: 19px;
+            margin: 20px 0 10px
+        }
 
-		<!--
-		We've already added one heading per task, to make your write-up as navigable when grading. Please fit your write-up within these sections!
-		-->
+        p {
+            margin: 0 0 13px
+        }
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+        a {
+            color: #285f88
+        }
 
-		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        header {
+            border-bottom: 2px solid #284d69;
+            padding-bottom: 18px;
+            margin-bottom: 25px
+        }
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="assets/lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="assets/lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="assets/lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="assets/lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			</table>
-		</div>
-		
-		<h2>Task 2: Antialiasing by Supersampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        .meta {
+            font-size: 13px;
+            color: #516171
+        }
 
-		<h2>Task 3: Transforms</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        .page {
+            margin: 0 0 60px
+        }
 
-		<h2>Task 4: Barycentric coordinates</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        figure {
+            margin: 8px 0 12px;
+            break-inside: avoid
+        }
 
-		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        figure img {
+            width: 100%;
+            display: block
+        }
 
-		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        figcaption {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #405466;
+            margin-top: 7px
+        }
 
-		<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px
+        }
 
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
-	</body>
+        .three {
+            grid-template-columns: repeat(3, minmax(0, 1fr))
+        }
+
+        .single {
+            max-width: 640px;
+            margin: auto
+        }
+
+        .detail {
+            width: 100%;
+            aspect-ratio: 1;
+            overflow: hidden
+        }
+
+        .detail img {
+            width: 333.333333%;
+            max-width: none;
+            transform: translateX(-70%)
+        }
+
+        .equation {
+            font-family: Georgia, serif;
+            text-align: center;
+            background: #f2f5f7;
+            padding: 11px 15px;
+            margin: 14px 0;
+            font-size: 17px
+        }
+
+        .small {
+            font-size: 13px
+        }
+
+        .note {
+            border-left: 3px solid #9bb2c4;
+            padding-left: 13px
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 13px;
+            line-height: 1.4;
+            margin: 16px 0
+        }
+
+        th,
+        td {
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid #ccd5dd;
+            padding: 9px
+        }
+
+        th {
+            background: #edf2f6
+        }
+
+        code {
+            font-size: .88em;
+            background: #f0f3f6;
+            padding: 1px 3px
+        }
+
+        nav {
+            font-size: 13px;
+            margin: 18px 0
+        }
+
+        nav a {
+            margin-right: 15px
+        }
+
+        .matrices {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            font-family: monospace;
+            font-size: 13px;
+            white-space: pre;
+            text-align: center;
+            margin: 18px 0
+        }
+
+        .license {
+            font-size: 11px;
+            line-height: 1.4
+        }
+
+        @media(max-width:720px) {
+            main {
+                padding: 25px 20px;
+                margin: 0
+            }
+
+            h1 {
+                font-size: 28px
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+
+            .matrices {
+                font-size: 11px;
+                gap: 8px
+            }
+
+            .page {
+                margin-bottom: 40px
+            }
+        }
+
+        @page {
+            size: letter;
+            margin: 0.6in 0.65in 0.6in
+        }
+
+        @media print {
+
+            html,
+            body {
+                background: white;
+                font-size: 10.5pt;
+                line-height: 1.38
+            }
+
+            main {
+                max-width: none;
+                margin: 0;
+                padding: 0
+            }
+
+            h1 {
+                font-size: 25pt
+            }
+
+            h2 {
+                font-size: 18pt;
+                margin-bottom: 10px
+            }
+
+            h3 {
+                font-size: 13pt
+            }
+
+            .meta {
+                font-size: 9pt
+            }
+
+            header {
+                padding-bottom: 11px;
+                margin-bottom: 15px
+            }
+
+            p {
+                margin-bottom: 9px
+            }
+
+            .page {
+                break-after: page;
+                margin: 0
+            }
+
+            .page:last-child {
+                break-after: auto
+            }
+
+            .grid {
+                gap: 10px
+            }
+
+            .single {
+                max-width: 440px
+            }
+
+            figcaption {
+                font-size: 8pt;
+                margin-top: 4px
+            }
+
+            figure {
+                margin: 5px 0 8px
+            }
+
+            .equation {
+                font-size: 11pt;
+                padding: 8px;
+                margin: 10px 0
+            }
+
+            table {
+                font-size: 9pt
+            }
+
+            td,
+            th {
+                padding: 7px
+            }
+
+            .small {
+                font-size: 9pt
+            }
+
+            .license {
+                font-size: 8pt
+            }
+
+            nav {
+                display: none
+            }
+
+            .matrices {
+                font-size: 10pt;
+                margin: 12px 0
+            }
+
+            a {
+                color: #285f88;
+                text-decoration: none
+            }
+
+            .three {
+                grid-template-columns: repeat(3, minmax(0, 1fr))
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="page" id="task1">
+            <header>
+                <div class="meta">CS 184/284A · FALL 2026 · HOMEWORK 1</div>
+                <h1>Rasterizer</h1>
+                <p class="meta">Charles Xu</p>
+                <div class="meta">Webpage: <a
+                        href="https://cal-cs184-student.github.io/hw1-charlesxu-writeup/">cal-cs184-student.github.io/hw1-charlesxu-writeup/</a><br>Write-up
+                    repository: <a
+                        href="https://github.com/cal-cs184-student/hw1-charlesxu-writeup">hw1-charlesxu-writeup</a>
+                </div>
+            </header>
+            <h2>Overview</h2>
+            <p>I implemented triangle rasterization, supersampling, 2D transforms, barycentric color interpolation, and
+                texture filtering with mipmaps. These pieces turn the supplied SVG scenes into an RGB framebuffer. The
+                most useful distinction was between smoothing a triangle's boundary and filtering detail inside a
+                texture: increasing the sample count helps both, but choosing a suitable mip level for small detail is
+                much cheaper.</p>
+            <h2>Task 1: Drawing Single-Color Triangles</h2>
+            <p>For each triangle, I first find a conservative bounding box covering it by finding the minimum and
+                maximum x and y coordinates, round outward, and clip that box to the framebuffer. For each pixel inside
+                the box, I test the center, P=(x + 0.5, y + 0.5) by taking the cross product between (A-B) and (A-P)
+                where A and B are vertex pairs for the triangle. Repeat this for each of the three edges (combination of
+                vertex pairs). The point P is inside the triangle if the sign of the three cross products agree - this
+                takes care of either vertex ordering. Zero is also included so samples exactly on an edge are filled.
+            </p>
+            <p>The loop visits each pixel in the bounding box once and does constant work per sample. Its cost is O(B)
+                for B pixels in that box, which is exactly the required bounding-box method. A zero-area triangle is
+                skipped. I kept the same coverage routine for flat colors, interpolated colors, and textures to avoid
+                slightly different edge behavior between them.</p>
+            <div class="single">
+                <figure><a href="assets/task2-1.png"><img src="assets/task2-1.png"
+                            alt="basic/test4.svg, default view, 1 sample/pixel. The inspector is on the thin red triangle near its left tip."
+                            loading="eager"></a>
+                    <figcaption>basic/test4.svg, default view, 1 sample/pixel. The inspector is on the thin red triangle
+                        near its left tip.</figcaption>
+                </figure>
+            </div>
+        </section>
+        <section class="page" id="task2">
+            <h2>Task 2: Antialiasing by Supersampling</h2>
+            <p>With only one sample, a pixel is either fully red or fully white, even if the triangle covers a small
+                fraction of it. This creates aliasing effect when triangle edges are at a certain angle. To anti-alias,
+                place an n * n grid of samples inside each pixel, where n = √sample_rate. Their offsets are ((i +
+                0.5)/n, (j + 0.5)/n). This samples the centers of equal-sized subpixel cells.</p>
+            <p>I store all samples in one vector, with each pixel's samples next to each other. Sample (i, j) in pixel
+                (x, y) is at index (y·width + x)·sample_rate + j·n + i. The buffer therefore holds
+                width·height·sample_rate colors. Both resizing the window and changing the sample rate reallocate this
+                buffer.</p>
+            <p>Triangles overwrite only the samples they cover. Points and lines fill every sample of their pixel with
+                the same color. After all primitives have been drawn, I average each pixel's samples once and convert
+                the result to 8-bit RGB. Resolving at the end matters because later triangles may cover only some
+                samples of an earlier triangle.</p>
+            <div class="grid three">
+                <figure><a href="assets/task2-1.png"><img src="assets/task2-1.png" alt="1 sample/pixel, default view."
+                            loading="eager"></a>
+                    <figcaption>1 sample/pixel, default view.</figcaption>
+                </figure>
+                <figure><a href="assets/task2-4.png"><img src="assets/task2-4.png" alt="4 samples/pixel, default view."
+                            loading="eager"></a>
+                    <figcaption>4 samples/pixel, default view.</figcaption>
+                </figure>
+                <figure><a href="assets/task2-16.png"><img src="assets/task2-16.png"
+                            alt="16 samples/pixel, default view." loading="eager"></a>
+                    <figcaption>16 samples/pixel, default view.</figcaption>
+                </figure>
+            </div>
+            <div class="grid three">
+                <figure><a href="assets/task2-1.png">
+                        <div class="detail"><img src="assets/task2-1.png" alt="Inspector detail: 1 sample/pixel."
+                                loading="eager"></div>
+                    </a>
+                    <figcaption>Inspector detail: 1 sample/pixel.</figcaption>
+                </figure>
+                <figure><a href="assets/task2-4.png">
+                        <div class="detail"><img src="assets/task2-4.png" alt="Inspector detail: 4 samples/pixel."
+                                loading="eager"></div>
+                    </a>
+                    <figcaption>Inspector detail: 4 samples/pixel.</figcaption>
+                </figure>
+                <figure><a href="assets/task2-16.png">
+                        <div class="detail"><img src="assets/task2-16.png" alt="Inspector detail: 16 samples/pixel."
+                                loading="eager"></div>
+                    </a>
+                    <figcaption>Inspector detail: 16 samples/pixel.</figcaption>
+                </figure>
+            </div>
+            <p>At 1 sample, the inspector shows a hard staircase. At 4 samples, partial coverage introduces a few
+                lighter reds. At 16, there are more intermediate shades, and the thin tip is more continuous.</p>
+
+        </section>
+        <section class="page" id="task3">
+            <h2>Task 3: Transforms</h2>
+            <p>I use homogeneous coordinates so translation, scaling, and rotation all fit into 3 * 3 matrices.
+                Translation changes the last column, scaling changes the first two diagonal entries, and rotation uses
+                sine and cosine after converting degrees to radians.</p>
+            <div class="matrices"><span>
+                T = [1 0 dx]
+                    [0 1 dy]
+                    [0 0  1]</span>
+            <span>
+                S = [sx  0  0]
+                    [ 0  sy 0]
+                    [ 0  0  1]</span>
+            <span>
+                R = [cosθ -sinθ  0]
+                    [sinθ  cosθ  0]
+                    [ 0    0     1]
+        </span></div>
+            <p>With column vectors, T·R·S applies scale first, then rotation, then translation. Nesting the SVG groups
+                lets a child inherit its parent's transform. For an arm, I scale the square into a segment, offset it
+                from the joint, rotate about that joint, and then move the joint to the shoulder.</p>
+            <p>For <a href="my_robot.svg">my_robot.svg</a>, I kept the starter robot's square-based parts and made it
+                wave with a bent right elbow. The forearm is nested under the upper arm, so its position follows the
+                shoulder rotation. I tilted his torso, offset his head, and bent his knees to make the pose less rigid. I made his
+                torso, arms, and legs blue while head, hands, and feet gold to make it look like he's wearing cloths
+            </p>
+            <div class="single">
+                <figure><a href="assets/task3-robot.png"><img src="assets/task3-robot.png"
+                            alt="Waving cubeman, 16 samples/pixel. The SVG uses nested translation, rotation, and scaling groups."
+                            loading="eager"></a>
+                    <!-- <figcaption>Waving cubeman, 16 samples/pixel. The SVG uses nested translation, rotation, and scaling -->
+                        <!-- groups.</figcaption> -->
+                </figure>
+            </div>
+        </section>
+        <section class="page" id="task4">
+            <h2>Task 4: Barycentric Coordinates</h2>
+            <p>Barycentric coordinates describe a point as a weighted combination of the triangle's three vertices where the weights 
+                sum to one. I always think of it as convex combination of the three vertices. Pixels in the triangle
+                form the convex hull.
+            </p>
+            <div class="equation">P = αA + βB + γC, &nbsp; α + β + γ = 1, &nbsp; α>0, β>0, γ>0 <br>color(P) = α·color(A) + β·color(B) +
+                γ·color(C)</div>
+            <p> The three weights can be calculated by dividing the signed area of the opposite subtriangle by the triangle's total
+                signed area. The edge tests already give these area ratios, so the shading step can reuse them. I then
+                use the weights multipled by the three vertex colors to determine the color for each pixel inside the triangle. </p>
+            <div class="grid">
+                <figure><a href="assets/task4-rgb.png"><img src="assets/task4-rgb.png"
+                            alt="RGB triangle, 1 sample/pixel. Red, green, and blue each dominate near their own vertex."
+                            loading="eager"></a>
+                    <!-- <figcaption>RGB triangle, 1 sample/pixel. Red, green, and blue each dominate near their own vertex.
+                    </figcaption> -->
+                </figure>
+                <figure><a href="assets/task4-wheel.png"><img src="assets/task4-wheel.png"
+                            alt="basic/test7.svg, default view, 1 sample/pixel." loading="eager"></a>
+                    <!-- <figcaption>basic/test7.svg, default view, 1 sample/pixel.</figcaption> -->
+                </figure>
+            </div>
+            <p>The triangle make the weights visible: the red-green edge has no blue
+                contribution, while the centroid has equal contributions from all three vertices, giving (1/3, 1/3,
+                1/3). In the color wheel, each small triangle interpolates between the black center and two neighboring
+                colors on the rim. The shared vertices keep the color transitions continuous across triangle boundaries.
+            </p>
+        </section>
+        <section class="page" id="task5">
+            <h2>Task 5: Pixel Sampling for Texture Mapping</h2>
+            <p>To map a texture onto a pixel, I first pin three of the four corners
+                on the texture map onto the vertices of the triangle. Then, for each pixel inside the triangle, I use the barycentric coordinates to find the corresponding point on the texture map. However, this point usually lands somewhere not at the center of a texel. This is when the sampling comes in. 
+            </p>
+            <p>
+                N=1 nearest sampling simply rounds the computed point to the nearest texel and directly use the pixel value there. N>1 nearest sampling first subdivides a pixel into N sub pixels (similar to antialiasing). For each sub pixel, independently compute it's texel position and take the color from its nearest point in the texture map. Finally, average over all N subpixel values to get the single pixel value. 
+            </p>
+            <p>
+
+                Bilinear interpolation changes how to determine the pixel color given a texel point. For each pixel or subpixel, instead of taking the value of the nearest texel, computed a weighted average of the four nearest texel values. The weight for each direction is linear to the distance of the uv coordinate to the texel center. For supersampling, repeat the same process as we did in supersampled nearest sample method, only replacing how each subpixel value is determined as above. 
+            </p>
+            <div class="grid">
+                <figure><a href="assets/task5-edge-nearest-1.png"><img src="assets/task5-edge-nearest-1.png"
+                            alt="Nearest, 1 sample/pixel, L_ZERO." loading="eager"></a>
+                    <figcaption>Nearest, 1 sample/pixel, L_ZERO.</figcaption>
+                </figure>
+                <figure><a href="assets/task5-edge-bilinear-1.png"><img src="assets/task5-edge-bilinear-1.png"
+                            alt="Bilinear, 1 sample/pixel, L_ZERO." loading="eager"></a>
+                    <figcaption>Bilinear, 1 sample/pixel, L_ZERO.</figcaption>
+                </figure>
+                <figure><a href="assets/task5-edge-nearest-16.png"><img src="assets/task5-edge-nearest-16.png"
+                            alt="Nearest, 16 samples/pixel, L_ZERO." loading="eager"></a>
+                    <figcaption>Nearest, 16 samples/pixel, L_ZERO.</figcaption>
+                </figure>
+                <figure><a href="assets/task5-edge-bilinear-16.png"><img src="assets/task5-edge-bilinear-16.png"
+                            alt="Bilinear, 16 samples/pixel, L_ZERO." loading="eager"></a>
+                    <figcaption>Bilinear, 16 samples/pixel, L_ZERO.</figcaption>
+                </figure>
+            </div>
+            <p>Nearest at 1 sample gives the gold-and-blue curves abrupt, blocky
+                boundaries. At 16 samples, those transitions soften much more.
+                Bilinear at 1 sample already removes much of that blockiness; going to 16 makes the edges even softer. However, there's a smaller relative difference between nearest and bilinear sampling at 16 samples per pixel. The difference is largest when a low-resolution texture is enlarged, especially around high-contrast
+                details.</p>
+        </section>
+        <section class="page" id="task6">
+            <h2>Task 6: Level Sampling with Mipmaps</h2>
+            <p>When a texture map is mapped to a really small triangle, the above sampling methods might not work well because only moving one texel can correspond to very little movement in pixel space. In other words, the sampling region in texel space for one pixel might be very disjoint from the sampling region for the pixel beside it. This means jagged artifacts will remain. 
+                </p>
+                <p>
+                A mipmap stores successively smaller, prefiltered copies of the texture. Level sampling chooses a copy
+                whose texels are approximately the size of the texture region covered by a screen pixel. This avoids
+                selecting one tiny detail from a region that should have been averaged.</p>
+            <p>I interpolate UV at the current sample and at offsets of one screen pixel in x and y. Because barycentric
+                interpolation is affine here, I calculate those two UV differences once per triangle, then add them to
+                each sample's UV. In <code>get_level</code>, I scale the u differences by the original texture width and
+                the v differences by its height.</p>
+            <div class="equation">d<sub>x</sub> = (W·∂u/∂x, H·∂v/∂x), &nbsp; d<sub>y</sub> = (W·∂u/∂y, H·∂v/∂y)<br>D =
+                max(‖d<sub>x</sub>‖, ‖d<sub>y</sub>‖), &nbsp; level = log₂(max(1, D))</div>
+            <p>I clamp the level to the available mip range. <code>L_ZERO</code> always uses level 0.
+                <code>L_NEAREST</code> rounds the level. <code>L_LINEAR</code> samples its floor and ceiling levels and
+                blends by the fractional part. Each level can independently use nearest or bilinear pixel sampling;
+                bilinear within levels plus linear blending between levels gives trilinear filtering. The derivatives
+                stay one pixel apart even when supersampling is enabled.</p>
+            <h3>Cost and quality</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Compute and memory</th>
+                        <th>Benefits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nearest → bilinear pixels</td>
+                        <td>1 → 4 texel reads per level; no extra image storage.</td>
+                        <td>Smooths interpolation within a level, especially during magnification. Does not integrate a
+                            large minification footprint.</td>
+                    </tr>
+                    <tr>
+                        <td>Use mip levels</td>
+                        <td>A square power-of-two mip chain needs about 4/3 the base texture storage. Nearest level
+                            reads one level; linear level blending reads two.</td>
+                        <td>Prefilters texture detail during minification. Linear level blending avoids abrupt changes
+                            between levels. Does not antialias the triangle silhouette.</td>
+                    </tr>
+                    <tr>
+                        <td>Increase samples/pixel</td>
+                        <td>Sample-buffer storage and shading work grow roughly with the sample count. 16 samples use 16
+                            times the color-sample storage.</td>
+                        <td>Improves geometric coverage and samples texture detail more densely, but costs much more and
+                            can still miss very high frequencies.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The supplied mip generator allocated the full chain but stopped filling it too early. I fixed the loop to
+                include every allocated level; otherwise sufficiently distant textures could sample unfilled black
+                levels. Tests with white textures, odd dimensions, and 1 * N images check that the chain reaches a valid
+                1 * 1 result.</p>
+        </section>
+        <section class="page" id="task6-results">
+            <h2>Task 6: Sampling Comparisons</h2>
+            <p>I used a 348 * 348 Apple-logo PNG with a black silhouette on a light checkerboard. <a
+                    href="mipmap.svg">mipmap.svg</a> maps the full texture onto three squares at different sizes, using
+                one sample per pixel. In the smallest copy, one screen pixel covers roughly four source texels in each
+                direction, so nearest-level sampling selects mip level 2.</p>
+            <div class="grid">
+                <figure><a href="assets/task6-zero-nearest.png"><img src="assets/task6-zero-nearest.png"
+                            alt="L_ZERO + P_NEAREST, 1 sample/pixel." loading="eager"></a>
+                    <figcaption>L_ZERO + P_NEAREST, 1 sample/pixel.</figcaption>
+                </figure>
+                <figure><a href="assets/task6-zero-bilinear.png"><img src="assets/task6-zero-bilinear.png"
+                            alt="L_ZERO + P_LINEAR, 1 sample/pixel." loading="eager"></a>
+                    <figcaption>L_ZERO + P_LINEAR, 1 sample/pixel.</figcaption>
+                </figure>
+                <figure><a href="assets/task6-nearest-nearest.png"><img src="assets/task6-nearest-nearest.png"
+                            alt="L_NEAREST + P_NEAREST, 1 sample/pixel." loading="eager"></a>
+                    <figcaption>L_NEAREST + P_NEAREST, 1 sample/pixel.</figcaption>
+                </figure>
+                <figure><a href="assets/task6-nearest-bilinear.png"><img src="assets/task6-nearest-bilinear.png"
+                            alt="L_NEAREST + P_LINEAR, 1 sample/pixel." loading="eager"></a>
+                    <figcaption>L_NEAREST + P_LINEAR, 1 sample/pixel.</figcaption>
+                </figure>
+            </div>
+            <p>The inspector shows the same lower edge of the smallest logo in all four images. With level 0 and nearest
+                pixels, the outline has abrupt stair steps and the checkerboard stays sharply divided. Bilinear sampling
+                at level 0 introduces a few gray transition pixels, but its four-texel neighborhood is still smaller
+                than the pixel footprint. Nearest mip sampling produces more averaged edge values and softens the
+                checkerboard. Combining the nearest mip level with bilinear pixels gives the smoothest outline here,
+                with a wider gray transition along the black edge.</p>
+        </section>
+    </main>
+</body>
+
 </html>
